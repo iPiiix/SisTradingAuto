@@ -1,11 +1,13 @@
 """
 FASE 1 - Sistemas Automatizado de Tradings
 Autor: Santiago Pérez Guerrero
-Descripcion: Script para obtener y analizar datos finacieros
+Descripcion: Script para obten
+er y analizar datos finacieros
 """
 # Importar librerias
 import yfinance as yf
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def obtener_datos_cripto(simbolo='BTC-USD', periodo='1mo'):
     """Función para descargar datos históricos de una criptomoneda"""
@@ -17,6 +19,9 @@ def obtener_datos_cripto(simbolo='BTC-USD', periodo='1mo'):
             print("No se encontraron datos para el símbolo especificado.")
             return None
         
+        if isinstance(datos.columns, pd.MultiIndex):
+            datos.columns = datos.columns.get_level_values(0)
+
         print(f"Datos descargados desde {datos.index[0].date()} hasta {datos.index[-1].date()}")
         return datos
     except Exception as e:
@@ -131,7 +136,7 @@ def main():
         graficar_datos(datos, SIMBOLO)
 
         datos.to_csv(f"{SIMBOLO.replace('-','_')}_analisis.csv")
-        print("\n Datos guardados en 'datos_analisis.csv'")
+        print("\n Datos guardados en '{nombre_archivo}'")
     else:
         print("No se pudieron obtener datos para el análisis.")
 if __name__ == "__main__":
