@@ -80,7 +80,6 @@ def backtesting(df, capital_inicial=1000):
     """Realiza un backtesting simple basado en las señales generadas."""
     capital = capital_inicial
     posiciones = 0  # Número de unidades compradas
-    operaciones = [] # Historial de operaciones
 
     for i in range(1, len(df)):
         if df['Cruce'].iloc[i] == 2:  # Señal de compra
@@ -160,12 +159,6 @@ def main():
         mostrar_resumen(datos)
         datos = calcular_indicadores(datos)
         datos = generar_señales(datos)
-
-        print("\n" + "="*50)
-        print("INICIO BACKTESTING")
-        print("="*50)
-        backtesting(datos, capital_inicial=1000)
-
         graficar_datos(datos, SIMBOLO)
 
         datos.to_csv(f"{SIMBOLO.replace('-','_')}_analisis.csv")
